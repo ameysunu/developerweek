@@ -1,8 +1,14 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+Future<DocumentSnapshot> getUserInfo() async {
+  var firebaseUser = await FirebaseAuth.instance.currentUser;
+  return await FirebaseFirestore.instance.doc('users/symptom').get();
+}
 
 class Home extends StatefulWidget {
   final User user;
@@ -55,7 +61,13 @@ class _HomeState extends State<Home> {
                       _controller.complete(controller);
                     },
                   ),
-                )
+                ),
+                Spacer(),
+                ElevatedButton(
+                    child: Text("Choose the best one for me"),
+                    onPressed: () {
+                      print("pressed");
+                    })
               ],
             ),
           ),
