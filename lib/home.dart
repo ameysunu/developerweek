@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   child: GoogleMap(
-                    mapType: MapType.hybrid,
+                    mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
