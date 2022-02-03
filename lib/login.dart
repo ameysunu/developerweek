@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'Meet other empowering creators and let your creativity run free.',
+                      'Safe platform for you to share your thoughts and engage with others.',
                       style: GoogleFonts.roboto(
                           textStyle: TextStyle(fontSize: 25)),
                     ),
@@ -92,8 +92,8 @@ class _LoginState extends State<Login> {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) => Home(
-                                      //user: user,
-                                      ),
+                                    user: user,
+                                  ),
                                 ),
                               );
                             }
