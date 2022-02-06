@@ -16,6 +16,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Completer<GoogleMapController> _controller = Completer();
+  final Set<Marker> markers = new Set();
+  LatLng _center = LatLng(51.8833156, -8.5120279);
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(51.8833203, -8.5391952),
@@ -65,6 +67,7 @@ class _HomeState extends State<Home> {
                   height: MediaQuery.of(context).size.height * 0.3,
                   child: GoogleMap(
                     mapType: MapType.normal,
+                    markers: getmarkers(),
                     initialCameraPosition: _kGooglePlex,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
@@ -142,5 +145,50 @@ class _HomeState extends State<Home> {
   Future<void> _bestClinic() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  }
+
+  Set<Marker> getmarkers() {
+    //markers to place on map
+    setState(() {
+      markers.add(Marker(
+        //add first marker
+        markerId: MarkerId(LatLng(51.8778744, -8.4773814).toString()),
+        position: LatLng(51.8778744, -8.4773814), //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'The Sunflower Clinic',
+          snippet: 'Tramore Commercial Park, U1, Tramore Rd, Cork, T12 E796',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      markers.add(Marker(
+        //add second marker
+        markerId: MarkerId(LatLng(51.8833156, -8.5120279).toString()),
+        position: LatLng(51.8833156, -8.5120279), //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'Cork University Hospital',
+          snippet: 'Wilton Manor, Glasheen, Cork',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      markers.add(Marker(
+        //add third marker
+        markerId: MarkerId(LatLng(51.8931509, -8.5250969).toString()),
+        position: LatLng(51.8931509, -8.5250969), //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'Palmer Counselling',
+          snippet: '21-23 Oliver Plunkett St, Centre, Cork, T12 NY91',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      //add more markers here
+    });
+
+    return markers;
   }
 }
