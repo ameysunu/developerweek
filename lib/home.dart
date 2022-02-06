@@ -18,15 +18,15 @@ class _HomeState extends State<Home> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(51.8833203, -8.5391952),
+    zoom: 12.4746,
   );
 
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
+      target: LatLng(51.8833156, -8.5120279),
       tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+      zoom: 12.4746);
 
   final firestoreInstance = FirebaseFirestore.instance;
   AsyncSnapshot<DocumentSnapshot>? snapshot;
