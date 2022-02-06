@@ -121,15 +121,20 @@ class _HomeState extends State<Home> {
                     },
                   ),
                 ),
-                ElevatedButton(
-                    child: Text("Choose the best one for me"),
-                    onPressed: () {
-                      _bestClinic();
-                    })
               ],
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.white,
+        label: Text(
+          "Choose the best one for me",
+          style: TextStyle(color: HexColor('#845EC2')),
+        ),
+        onPressed: () {
+          _bestClinic();
+        },
       ),
     );
   }
