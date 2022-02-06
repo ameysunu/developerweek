@@ -5,11 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-Future<DocumentSnapshot> getUserInfo() async {
-  var firebaseUser = await FirebaseAuth.instance.currentUser;
-  return await FirebaseFirestore.instance.doc('users/symptom').get();
-}
-
 class Home extends StatefulWidget {
   final User user;
   const Home({Key? key, required this.user}) : super(key: key);
@@ -31,7 +26,19 @@ class _HomeState extends State<Home> {
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
+
+  final firestoreInstance = FirebaseFirestore.instance;
+  AsyncSnapshot<DocumentSnapshot>? snapshot;
+  Stream<QuerySnapshot>? newStream;
+  CollectionReference hospitals =
+      FirebaseFirestore.instance.collection('hospital');
+
   @override
+  void initState() {
+    super.initState();
+    newStream = firestoreInstance.collection('hospital').snapshots();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -62,11 +69,54 @@ class _HomeState extends State<Home> {
                     },
                   ),
                 ),
-                Spacer(),
+                Flexible(
+                  child: StreamBuilder(
+                    stream: newStream,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      var totalgroupCount = 0;
+                      List<DocumentSnapshot> groupUsers;
+                      if (snapshot.hasData) {
+                        groupUsers = snapshot.data.docs;
+                        totalgroupCount = groupUsers.length;
+                        return Container(
+                          child: ListView.builder(
+                              itemCount: groupUsers.length,
+                              itemBuilder: (context, int index) {
+                                // return Text(groupUsers[index]['name']);
+                                return Card(
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 10),
+                                          child: Text(groupUsers[index]['name'],
+                                              style: TextStyle(
+                                                fontSize: 25,
+                                              )),
+                                        ),
+                                        Text(groupUsers[index]['address'],
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
                 ElevatedButton(
                     child: Text("Choose the best one for me"),
                     onPressed: () {
-                      print("pressed");
+                      _bestClinic();
                     })
               ],
             ),
@@ -74,5 +124,10 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  Future<void> _bestClinic() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }
