@@ -105,7 +105,11 @@ class _HomeState extends State<Home> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => Clinics(),
+                                        builder: (context) => Clinics(
+                                          clinicName: groupUsers[index]['name'],
+                                          clinicAddress: groupUsers[index]
+                                              ['address'],
+                                        ),
                                       ),
                                     );
                                   },
