@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:developerweek/clinics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -45,6 +46,18 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.chat),
+        //     onPressed: () {
+        //       Navigator.of(context).push(
+        //         MaterialPageRoute(
+        //           builder: (context) => Chat(),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ],
         backgroundColor: HexColor('#845EC2'),
         title: Text('Home'),
         automaticallyImplyLeading: false,
@@ -88,30 +101,40 @@ class _HomeState extends State<Home> {
                               itemCount: groupUsers.length,
                               itemBuilder: (context, int index) {
                                 // return Text(groupUsers[index]['name']);
-                                return Card(
-                                  color: HexColor("#845EC2"),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 10),
-                                            child: Text(
-                                                groupUsers[index]['name'],
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => Clinics(),
+                                      ),
+                                    );
+                                  },
+                                  child: Card(
+                                    color: HexColor("#845EC2"),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 10),
+                                              child: Text(
+                                                  groupUsers[index]['name'],
+                                                  style: TextStyle(
+                                                      fontSize: 25,
+                                                      color: Colors.white)),
+                                            ),
+                                            Text(groupUsers[index]['address'],
                                                 style: TextStyle(
-                                                    fontSize: 25,
-                                                    color: Colors.white)),
-                                          ),
-                                          Text(groupUsers[index]['address'],
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.white,
-                                              ))
-                                        ],
+                                                  fontSize: 17,
+                                                  color: Colors.white,
+                                                ))
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
